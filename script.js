@@ -12,13 +12,13 @@ const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
-// ---- Utility to get cart from sessionStorage ----
+// ---- Utility: get cart from sessionStorage ----
 function getCart() {
-  let cart = sessionStorage.getItem("cart");
+  const cart = sessionStorage.getItem("cart");
   return cart ? JSON.parse(cart) : [];
 }
 
-// ---- Save cart back to sessionStorage ----
+// ---- Utility: save cart back to sessionStorage ----
 function saveCart(cart) {
   sessionStorage.setItem("cart", JSON.stringify(cart));
 }
@@ -44,15 +44,8 @@ function renderProducts() {
 
 // ---- Render cart list ----
 function renderCart() {
-  cartList.innerHTML = "";
+  cartList.innerHTML = ""; // clear existing items
   const cart = getCart();
-
-  if (cart.length === 0) {
-    const li = document.createElement("li");
-    li.textContent = "Cart is empty";
-    cartList.appendChild(li);
-    return;
-  }
 
   cart.forEach((item) => {
     const li = document.createElement("li");
@@ -67,18 +60,18 @@ function addToCart(productId) {
   if (!product) return;
 
   const cart = getCart();
-  cart.push(product);
+  cart.push(product); // allow duplicates
   saveCart(cart);
   renderCart();
 }
 
 // ---- Clear cart ----
 function clearCart() {
-  sessionStorage.removeItem("cart"); // reset storage
+  sessionStorage.removeItem("cart");
   renderCart();
 }
 
-// ---- Initial setup ----
+// ---- Initial render ----
 renderProducts();
 renderCart();
 
