@@ -1,3 +1,6 @@
+// Reset cart on load (for Cypress test consistency)
+sessionStorage.removeItem("cart");
+
 // Product data
 const products = [
   { id: 1, name: "Product 1", price: 10 },
@@ -25,7 +28,7 @@ function saveCart(cart) {
 
 // ---- Render product list ----
 function renderProducts() {
-  productList.innerHTML = ""; // clear before rendering
+  productList.innerHTML = "";
   products.forEach((product) => {
     const li = document.createElement("li");
     li.innerHTML = `${product.name} - $${product.price} 
@@ -33,7 +36,7 @@ function renderProducts() {
     productList.appendChild(li);
   });
 
-  // Attach event listeners to add-to-cart buttons
+  // Attach event listeners
   document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const productId = parseInt(btn.getAttribute("data-id"));
@@ -44,7 +47,7 @@ function renderProducts() {
 
 // ---- Render cart list ----
 function renderCart() {
-  cartList.innerHTML = ""; // clear existing items
+  cartList.innerHTML = "";
   const cart = getCart();
 
   cart.forEach((item) => {
